@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "type": "choice",
+    "message": "Olá! Eu sou a Bia, sua assistente virtual. Como posso te ajudar hoje?",
+    "options": ["Acionar garantia", "Registrar produto comprado", "Entrar em contato"]
+  },
+  {
+    "id": 2,
+    "type": "verification",
+    "message": "Vamos iniciar o processo de acionamento de garantia. Primeiro, preciso confirmar seu e-mail e o número da nota fiscal para verificar se você já registrou esse produto anteriormente.",
+    "mode": "garantia"
+  },
+  {
+    "id": 3,
+    "type": "choice",
+    "message": "Você aceita nossa política de privacidade?",
+    "options": ["Sim", "Não"],
+    "mode": "garantia"
+  },
+  {
+    "id": 4,
+    "type": "text",
+    "message": "Perfeito! Preciso de alguns dados para continuar seu atendimento.",
+    "mode": "garantia"
+  },
+  {
+    "id": 5,
+    "type": "input",
+    "message": "Qual é o seu nome completo?",
+    "key": "name",
+    "mode": "garantia"
+  },
+  {
+    "id": 6,
+    "type": "input",
+    "message": "Qual é o seu e-mail?",
+    "key": "email",
+    "mode": "garantia"
+  },
+  {
+    "id": 7,
+    "type": "catalog",
+    "message": "Certo! Escolha o produto digitando o número correspondente:",
+    "key": "productName",
+    "mode": "garantia"
+  },
+  {
+    "id": 8,
+    "type": "input",
+    "message": "Entendido! Qual é o problema com o produto?",
+    "key": "issueDescription",
+    "mode": "garantia"
+  },
+  {
+    "id": 9,
+    "type": "choice",
+    "message": "Deseja enviar uma imagem do produto?",
+    "options": ["Sim", "Não"],
+    "mode": "garantia"
+  },
+  {
+    "id": 10,
+    "type": "upload",
+    "message": "Envie uma imagem do produto. Você pode anexar apenas uma imagem.",
+    "mode": "garantia"
+  },
+  {
+    "id": 11,
+    "type": "text",
+    "message": "Ótimo! Vamos registrar seu produto. Vou precisar de algumas informações.",
+    "mode": "registro"
+  },
+  {
+    "id": 12,
+    "type": "input",
+    "message": "Qual é o seu nome completo?",
+    "key": "registroNome",
+    "mode": "registro"
+  },
+  {
+    "id": 13,
+    "type": "input",
+    "message": "Qual é o seu e-mail?",
+    "key": "registroEmail",
+    "mode": "registro"
+  },
+  {
+    "id": 14,
+    "type": "input",
+    "message": "Qual é o nome do produto adquirido?",
+    "key": "registroProduto",
+    "mode": "registro"
+  },
+  {
+    "id": 15,
+    "type": "input",
+    "message": "Qual é a data da compra? (AAAA-MM-DD)",
+    "key": "registroDataCompra",
+    "mode": "registro"
+  },
+  {
+    "id": 16,
+    "type": "input",
+    "message": "Qual é o número da nota fiscal?",
+    "key": "registroNotaFiscal",
+    "mode": "registro"
+  },
+  {
+    "id": 17,
+    "type": "text",
+    "message": "Produto registrado com sucesso! Você receberá um e-mail com a confirmação em breve.",
+    "mode": "registro",
+    "endConversation": true
+  },
+  {
+    "id": 20,
+    "type": "text",
+    "message": "Você pode entrar em contato conosco pelos canais abaixo:\n📧 E-mail: suporte@cafmaquinas.com\n☎️ Telefone: (11) 4002-8922\nHorário de atendimento: Seg à Sex, das 8h às 18h.",
+    "mode": "contato",
+    "endConversation": true
+  }
+]

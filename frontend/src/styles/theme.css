@@ -1,0 +1,28 @@
+:root {
+  --bia-primary: #dc2626;
+  --bia-primary-dark: #b91c1c;
+  --bia-primary-light: #fee2e2;
+  --bia-surface: #ffffff;
+  --bia-text: #111827;
+}
+
+body {
+  background: linear-gradient(180deg, rgba(248, 113, 113, 0.12) 0%, rgba(255, 241, 242, 1) 65%);
+  color: var(--bia-text);
+}
+
+.bia-header {
+  background: linear-gradient(140deg, rgba(220, 38, 38, 0.96) 0%, rgba(239, 68, 68, 0.9) 100%);
+}
+
+.shadow-bia-bot {
+  box-shadow: 0 18px 32px -18px rgba(248, 113, 113, 0.7);
+}
+
+.shadow-bia-user {
+  box-shadow: 0 18px 32px -16px rgba(153, 27, 27, 0.65);
+}
+
+.shadow-bia-button {
+  box-shadow: 0 15px 24px -12px rgba(220, 38, 38, 0.55);
+}
