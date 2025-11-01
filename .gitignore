@@ -1,0 +1,32 @@
+# Node dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# Build output / caches
+dist/
+build/
+.vite/
+.eslintcache
+coverage/
+
+# Environment files
+.env
+.env.*
+*.local
+
+# Local data stores
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/tickets.json
+backend/produtos_registrados.json
+backend-dashboard/tickets-fechados.json
+
+# OS files
+.DS_Store
+Thumbs.db
