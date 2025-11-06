@@ -1,0 +1,15 @@
+{
+  "name": "caf-hackathon",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Full-stack web project with React frontend and Express backend for hackathon experiments.",
+  "scripts": {
+    "install:all": "npm --prefix frontend install && npm --prefix backend install",
+    "dev": "concurrently \"npm --prefix frontend run dev\" \"npm --prefix backend run start\"",
+    "start": "npm --prefix backend run start",
+    "lint": "npm --prefix frontend run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

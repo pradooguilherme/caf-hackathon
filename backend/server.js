@@ -53,8 +53,6 @@ function saveTickets(tickets) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(tickets, null, 2));
 }
 
-let tickets = loadTickets();
-
 // expose tickets for dashboard consumption
 app.get('/api/tickets', (req, res) => {
   try {
@@ -75,7 +73,9 @@ app.post('/api/ticket', upload.single('attachment'), (req, res) => {
   const normalizedName = payload.name || payload.nome;
   const normalizedProduct = payload.productName || payload.produto;
   const normalizedIssue = payload.issueDescription || payload.problema;
-  const requiredFields = [normalizedName, payload.email, normalizedProduct, normalizedIssue];
+  const normalizedState = payload.estado;
+  const normalizedCity = payload.cidade;
+  const requiredFields = [normalizedName, payload.email, normalizedProduct, normalizedIssue, normalizedState, normalizedCity];
 
   const hasAllFields = requiredFields.every((field) => typeof field === 'string' && field.trim() !== '');
 
@@ -86,18 +86,29 @@ app.post('/api/ticket', upload.single('attachment'), (req, res) => {
     });
   }
 
+  const tickets = loadTickets();
   const ticketId = `TCK-${String(tickets.length + 1).padStart(4, '0')}`;
   const attachmentFilename = req.file ? req.file.filename : null;
+  const estado = normalizedState.trim().toUpperCase();
+  const cidade = normalizedCity.trim();
+  const email = (payload.email || '').trim();
   const newTicket = {
     id: ticketId,
-    createdAt: new Date().toISOString(),
-    name: normalizedName.trim(),
-    email: (payload.email || '').trim(),
-    productName: normalizedProduct.trim(),
-    issueDescription: normalizedIssue.trim(),
+    nome: normalizedName.trim(),
+    email,
+    produto: normalizedProduct.trim(),
+    problema: normalizedIssue.trim(),
+    estado,
+    cidade,
+    status: 'Aberto',
+    dataCriacao: new Date().toISOString(),
+    tempoEspera: null,
     wantsImage: payload.wantsImage === 'true' ? true : payload.wantsImage === 'false' ? false : payload.wantsImage,
-    attachment: attachmentFilename,
   };
+
+  if (attachmentFilename) {
+    newTicket.anexo = `/uploads/${attachmentFilename}`;
+  }
 
   tickets.push(newTicket);
 

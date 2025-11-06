@@ -1,43 +1,35 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
-class ErrorBoundary extends Component {
+export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
   }
 
   componentDidCatch(error, info) {
-    console.error('Erro no fluxo:', error, info);
+    console.error('Erro capturado no ErrorBoundary:', error, info);
   }
 
   render() {
-    const { hasError } = this.state;
-    const { children } = this.props;
-
-    if (hasError) {
+    if (this.state.hasError) {
       return (
-        <div className="flex min-h-screen w-full items-center justify-center bg-red-50 px-6 text-center text-slate-700">
-          <div className="max-w-md rounded-3xl bg-white px-6 py-8 shadow-bia-bot">
-            <h2 className="text-xl font-semibold text-red-600">Algo saiu do ritmo.</h2>
-            <p className="mt-3 text-sm">
-              Desculpe, ocorreu um erro ao carregar o assistente. Recarregue a página e tente novamente.
+        <div className="flex items-center justify-center min-h-screen bg-red-50">
+          <div className="bg-white p-6 rounded-2xl shadow-md text-center max-w-md">
+            <h1 className="text-xl font-semibold text-red-600 mb-2">
+              Algo saiu do ritmo.
+            </h1>
+            <p className="text-gray-700">
+              Desculpe, ocorreu um erro ao carregar o assistente.{'  '}
+              Recarregue a página e tente novamente.
             </p>
           </div>
         </div>
       );
     }
-
-    return children;
+    return this.props.children;
   }
 }
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-export default ErrorBoundary;

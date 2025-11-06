@@ -7,12 +7,15 @@ const NAV_ITEMS = [
 
 function NavBar({ activeTab, onSelect }) {
   return (
-    <nav className="rounded-3xl bg-bia-600 p-2 text-sm font-semibold text-white shadow-md sm:text-base">
+    <nav className="rounded-2xl bg-red-100 p-2 text-sm font-semibold text-red-800 shadow-inner sm:text-base">
       <ul className="flex flex-wrap gap-2">
         {NAV_ITEMS.map((item) => {
           const isActive = item.id === activeTab;
-          const baseClasses = 'flex-1 min-w-[140px] rounded-2xl px-4 py-2 text-center transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
-          const activeClasses = isActive ? 'bg-bia-700 text-white shadow-inner' : 'bg-bia-500/40 text-white hover:bg-bia-500';
+          const baseClasses =
+            'w-full rounded-lg px-4 py-2 text-center transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500';
+          const activeClasses = isActive
+            ? 'bg-red-600 text-white shadow-md'
+            : 'bg-red-100 text-red-800 hover:bg-red-200';
 
           return (
             <li key={item.id} className="flex-1">

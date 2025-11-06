@@ -44,14 +44,74 @@ function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
+function loadTickets() {
+  return readJson(OPEN_TICKETS_PATH, []);
+}
+
+function persistTickets(tickets) {
+  writeJson(OPEN_TICKETS_PATH, tickets);
+}
+
 /** Garante que o arquivo de tickets fechados exista. */
 if (!fs.existsSync(CLOSED_TICKETS_PATH)) {
   writeJson(CLOSED_TICKETS_PATH, []);
 }
 
 app.get('/api/tickets', (req, res) => {
-  const tickets = readJson(OPEN_TICKETS_PATH, []);
+  const tickets = loadTickets();
   res.json(tickets);
+});
+
+app.get('/api/ticket/:id', (req, res) => {
+  const tickets = loadTickets();
+  const ticket = tickets.find((item) => item.id === req.params.id);
+
+  if (!ticket) {
+    return res.status(404).json({ message: 'Ticket não encontrado' });
+  }
+
+  return res.json(ticket);
+});
+
+app.put('/api/ticket/:id', (req, res) => {
+  const { status, tempoEspera } = req.body || {};
+  const tickets = loadTickets();
+  const ticketIndex = tickets.findIndex((item) => item.id === req.params.id);
+
+  if (ticketIndex === -1) {
+    return res.status(404).json({ message: 'Ticket não encontrado' });
+  }
+
+  if (typeof status === 'string' && status.trim()) {
+    tickets[ticketIndex].status = status.trim();
+  }
+
+  if (tempoEspera !== undefined) {
+    const parsedTempo = Number(tempoEspera);
+    if (!Number.isNaN(parsedTempo) && parsedTempo >= 0) {
+      tickets[ticketIndex].tempoEspera = parsedTempo;
+    }
+  }
+
+  try {
+    persistTickets(tickets);
+  } catch (error) {
+    console.error('Erro ao atualizar ticket:', error);
+    return res.status(500).json({ message: 'Não foi possível atualizar o ticket no momento.' });
+  }
+
+  return res.json({ success: true, ticket: tickets[ticketIndex] });
+});
+
+app.get('/api/tickets/por-estado', (req, res) => {
+  const tickets = loadTickets();
+  const agrupados = tickets.reduce((acc, ticket) => {
+    const estado = ticket?.estado?.trim() || 'Não informado';
+    acc[estado] = (acc[estado] || 0) + 1;
+    return acc;
+  }, {});
+
+  res.json(agrupados);
 });
 
 app.post('/api/fechar-ticket', (req, res) => {
@@ -61,7 +121,7 @@ app.post('/api/fechar-ticket', (req, res) => {
     return res.status(400).json({ success: false, message: 'ID do ticket é obrigatório.' });
   }
 
-  const openTickets = readJson(OPEN_TICKETS_PATH, []);
+  const openTickets = loadTickets();
   const closedTickets = readJson(CLOSED_TICKETS_PATH, []);
   const ticketIndex = openTickets.findIndex((ticket) => ticket.id === id);
 
@@ -79,7 +139,7 @@ app.post('/api/fechar-ticket', (req, res) => {
   closedTickets.push(closedTicket);
 
   try {
-    writeJson(OPEN_TICKETS_PATH, openTickets);
+    persistTickets(openTickets);
     writeJson(CLOSED_TICKETS_PATH, closedTickets);
     return res.status(200).json({ success: true, ticket: closedTicket });
   } catch (error) {
@@ -90,7 +150,7 @@ app.post('/api/fechar-ticket', (req, res) => {
 
 app.get('/api/estatisticas', (req, res) => {
   try {
-    const openTickets = readJson(OPEN_TICKETS_PATH, []);
+    const openTickets = loadTickets();
     const closedTickets = readJson(CLOSED_TICKETS_PATH, []);
 
     const durations = closedTickets
