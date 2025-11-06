@@ -17,11 +17,6 @@ Assistente virtual full-stack criado para o hackathon da CAF. O projeto entrega:
 
 > Todos os serviços persistem dados em arquivos JSON dentro do repositório, simplificando o uso local sem necessidade de banco de dados.
 
-## Pré-requisitos
-
-- Node.js 18+ (recomendado 20 LTS).
-- npm 9+.
-
 ## Como começar
 
 ### 1. Instalação rápida
@@ -31,18 +26,7 @@ npm install          # instala dependências da raiz
 npm run install:all  # instala frontend e backend
 ```
 
-### 2. Ambiente de desenvolvimento integrado
-
-Inicia simultaneamente o chatbot (`frontend`) e a API principal (`backend`):
-
-```bash
-npm run dev
-```
-
-- Frontend: http://localhost:5173  
-- API: http://localhost:4000
-
-### 3. Serviços individuais (opcional)
+### 2. Serviços
 
 ```bash
 # Frontend (chatbot)
@@ -65,19 +49,6 @@ cd backend-dashboard
 npm install
 npm run start
 ```
-
-## Configuração de ambiente
-
-Os serviços funcionam com valores padrão, mas você pode sobrescrever as URLs das APIs usando variáveis do Vite:
-
-| Serviço | Variável | Valor padrão |
-|---------|----------|---------------|
-| `frontend` | `VITE_API_URL` | `http://localhost:4000/api/ticket` |
-| | `VITE_REGISTRATION_API_URL` | `http://localhost:4000/api/registro-produto` |
-| | `VITE_PRODUCT_VERIFY_API_URL` | `http://localhost:4000/api/verificar-produto` |
-| `frontend-dashboard` | `VITE_DASHBOARD_API_URL` | `http://localhost:5001` |
-
-Crie um arquivo `.env.local` em cada frontend se precisar customizar esses valores.
 
 ## APIs principais
 
@@ -104,7 +75,6 @@ Arquivos gerados: `backend/tickets.json`, `backend/uploads/*`, `backend/produtos
 | `GET` | `/api/estatisticas` | Totais de tickets abertos/fechados e SLA médio. |
 
 ## Estrutura de pastas (resumo)
-
 ```
 .
 ├── backend/               # API principal (Express, Multer, persistência em arquivos)
@@ -113,15 +83,3 @@ Arquivos gerados: `backend/tickets.json`, `backend/uploads/*`, `backend/produtos
 ├── frontend-dashboard/    # Painel de monitoramento (React + Recharts)
 └── assets/                # Recursos compartilhados (logos, mockups etc.)
 ```
-
-## Scripts úteis
-
-- `npm run lint` — Executa o lint configurado no frontend.
-- `npm run dev` — Sobe frontend e backend principais em paralelo.
-- Use `npm run build`/`preview` dentro de cada frontend quando precisar testar a versão otimizada.
-
-## Próximos passos sugeridos
-
-- Configurar deploy separado para cada serviço (por exemplo, Vercel para os frontends e Render para os backends).
-- Integrar autenticação no dashboard antes de disponibilizá-lo publicamente.
-- Substituir a persistência em arquivos por um banco de dados quando for necessário escalar.
